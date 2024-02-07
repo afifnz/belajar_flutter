@@ -20,8 +20,8 @@ class MainApp extends StatelessWidget {
             child: Image.asset("images/logo.png"),
             // child: const Image(
             //   fit: BoxFit.contain,
-            //   // image: AssetImage("images/logo.png"),
-            //   image: NetworkImage("https://afifnz.github.io/polisam/assets/logo.png")
+            //   image: AssetImage("images/logo.png"),
+            //   // image: NetworkImage("https://afifnz.github.io/polisam/assets/logo.png")
             // ),
           ),
         ),
