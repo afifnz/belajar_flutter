@@ -38,7 +38,12 @@ class _MainAppState extends State<MainApp> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Text(counter.toString()),
+            Text(
+              style: TextStyle(
+                fontSize: 20 + double.parse(counter.toString()),
+              ),
+              counter.toString()
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
