@@ -1,17 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void main() {
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => CounterProvider())
-      ],
-      child: MyApp(),
-    )
-  );
-}
-
 class CounterProvider with ChangeNotifier {
   int _counter = 0;
 
@@ -27,6 +16,18 @@ class CounterProvider with ChangeNotifier {
     notifyListeners();
   }
 
+}
+
+
+void main() {
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CounterProvider())
+      ],
+      child: MyApp(),
+    )
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -55,33 +56,29 @@ class HomePage extends StatelessWidget {
                 Text(
                   '${counterProvider.counter}',
                   style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold)),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    TextButton(
-                      onPressed: () {
-                        counterProvider.decrementCounter();
-                      },
-                      child: Icon(Icons.remove)
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        counterProvider.incrementCounter();
-                      },
-                      child: Icon(Icons.add)
-                    )
-                  ],
+                Container(
+                  padding: EdgeInsets.all(5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          counterProvider.decrementCounter();
+                        },
+                        child: Icon(Icons.remove)
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          counterProvider.incrementCounter();
+                        },
+                        child: Icon(Icons.add)
+                      )
+                    ],
+                  ),
                 )
               ]
             ),
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              // Step 4: Trigger state update
-              counterProvider.incrementCounter();
-            },
-            child: Icon(Icons.add),
-          ),
+          )
         );
       },
     );
