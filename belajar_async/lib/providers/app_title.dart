@@ -8,6 +8,7 @@ class ApplicationTitle with ChangeNotifier {
   set isWelcome(bool value){
     isWelcomeAsync(value).then((value) {
       _isWelcome = value;
+      print("set is welcome ");
       notifyListeners();
     },);
   }

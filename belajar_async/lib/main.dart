@@ -16,7 +16,7 @@ class MainApp extends StatelessWidget {
         create: (context) => ApplicationTitle(),
         child: Scaffold(
           body: Center(
-            child: WrapWithCircularProgress(),
+            child: AppBody(),
           ),
         ),
       ),
@@ -24,27 +24,11 @@ class MainApp extends StatelessWidget {
   }
 }
 
-class WrapWithCircularProgress extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    final appTitle = Provider.of<ApplicationTitle>(context, listen: true);
-    return FutureBuilder<bool>(
-        future: appTitle.isWelcomeAsync(appTitle.isWelcome),
-        builder: (context, snapshot) {
-          return snapshot.connectionState == ConnectionState.waiting
-              ? const CircularProgressIndicator()
-              : AppBody();
-        }
-      );
-  }
-}
-
 class AppBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final appTitle = Provider.of<ApplicationTitle>(context, listen: false);
+    final appTitle = Provider.of<ApplicationTitle>(context, listen: true);
     return Column(
       children: [
         Container(
@@ -53,18 +37,32 @@ class AppBody extends StatelessWidget {
         ),
         Container(
           padding: EdgeInsets.only(top: 25, bottom: 25),
-          child: Consumer<ApplicationTitle>(
-            builder: (context, applicationTitle, _) => Text(applicationTitle.title, style: const TextStyle(fontSize: 20),),
-          ),
+          child: Text(appTitle.title, style: const TextStyle(fontSize: 20),),
         ),
         Container(
-          child: Consumer<ApplicationTitle>(
-            builder: (context, applicationTitle, _) => TextButton(
-              onPressed: () {
-                applicationTitle.isWelcome = !applicationTitle.isWelcome;
-              },
-              child: const Text("Submit")
-            )
+          child: ElevatedButton.icon(
+            onPressed: () {
+              print("on press");
+              appTitle.isWelcome = !appTitle.isWelcome;
+            },
+            icon: FutureBuilder<bool>(
+              future: appTitle.isWelcomeAsync(appTitle.isWelcome),
+              builder: (context, snapshot) {
+                print(snapshot.connectionState);
+                return snapshot.connectionState == ConnectionState.waiting
+                  ? Container(
+                    width: 24,
+                    height: 24,
+                    padding: const EdgeInsets.all(2.0),
+                    child: const CircularProgressIndicator(
+                      color: Colors.white,
+                      strokeWidth: 3,
+                    ),
+                  )
+                  : const Icon(Icons.feedback);
+              }
+            ), 
+            label: const Text("Submit")
           )
         )
       ],
